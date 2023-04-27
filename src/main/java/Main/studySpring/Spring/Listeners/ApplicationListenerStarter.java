@@ -34,8 +34,8 @@ public class ApplicationListenerStarter {
         try {
             InputStream inputStream = new FileInputStream(file);
             byte[] bytes = new byte[inputStream.available()];
+            if (bytes.length==0)return;
             inputStream.read(bytes);
-
             String[] split = new String(bytes).replace("\r","").split("\\n");
             for (String s : split) {
                 Class<?> aClass = Class.forName(s);

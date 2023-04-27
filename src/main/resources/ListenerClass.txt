@@ -1,2 +1,1 @@
-Main.studySpring.Spring.Listeners.TestListener
 Main.studySpring.Mybaits.listeners.MybatisListener
