@@ -1,0 +1,5 @@
+mybatis:
+  url: "jdbc:mysql://127.0.0.1:3306/mybatis_test"
+  username: "root"
+  password: "root"
+port: 8081
