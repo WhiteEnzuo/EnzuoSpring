@@ -1,6 +1,6 @@
 package Main.studySpring.Mybaits.annotation;
 
-import Main.studySpring.Spring.annotation.Bean;
+import Main.studySpring.Spring.annotation.bean.Bean;
 
 import java.lang.annotation.*;
 

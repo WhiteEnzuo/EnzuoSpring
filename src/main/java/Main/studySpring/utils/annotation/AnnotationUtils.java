@@ -25,11 +25,19 @@ public class AnnotationUtils {
         }
         return flag;
     }
-    public static boolean isAnnotation(Class<?> clazz,Class<? extends Annotation> annotationClazz){
-        if (clazz.getAnnotation(annotationClazz)!=null)return true;
+    public static boolean isAnnotation(Class<?> clazz,Class<? extends Annotation> annotationClazz,List<Class<? extends Annotation>> temp){
+        if (clazz.getAnnotation(annotationClazz)!=null) {
+            Annotation annotation = clazz.getAnnotation(annotationClazz);
+            if(temp!=null)
+            temp.add(annotation.annotationType());
+            return true;
+        }
         boolean flag= false;
         for (Annotation annotation : clazz.getDeclaredAnnotations()) {
             flag=flag|| AnnotationUtils.isAnnotation(annotation, new ArrayList<>(), annotationClazz);
+            if(temp!=null&&flag){
+                temp.add(annotation.annotationType());
+            }
         }
         return flag;
     }

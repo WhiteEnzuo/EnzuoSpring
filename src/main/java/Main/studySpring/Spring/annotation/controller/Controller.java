@@ -1,4 +1,6 @@
-package Main.studySpring.Spring.annotation;
+package Main.studySpring.Spring.annotation.controller;
+
+import Main.studySpring.Spring.annotation.bean.Bean;
 
 import java.lang.annotation.*;
 

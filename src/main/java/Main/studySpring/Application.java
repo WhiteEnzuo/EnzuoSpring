@@ -1,5 +1,6 @@
 package Main.studySpring;
 
+import Main.studySpring.Spring.Service.impl.TestService;
 import Main.studySpring.Spring.SpringApplication;
 import Main.studySpring.Spring.context.ApplicationContext;
 import Main.studySpring.Tomcat.Config.Config;
@@ -23,10 +24,11 @@ public class Application {
             SpringApplication.run(context, clazz, args);
             Map<String, Object> config = context.getConfig();
             if (config.containsKey("port")) {
-                Integer port = (Integer) config.get("port");
-                Config.port = port;
+                Config.port = (Integer) config.get("port");
             }
-            SeverLet.run(clazz, args);
+        TestService bean = context.getBeanFactory().getBean(TestService.class);
+            bean.print();
+        SeverLet.run(clazz, args);
 
 
     }
