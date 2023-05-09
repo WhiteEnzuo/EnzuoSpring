@@ -24,9 +24,6 @@ public class BaseMapperInvoke implements InvocationHandler {
     public BaseMapperInvoke(Class<?> clazz){
         this.clazz=clazz;
     }
-    public BaseMapperInvoke(){
-
-    }
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if(BaseMapper.class.getMethod("selectById", Serializable.class).equals(method)){

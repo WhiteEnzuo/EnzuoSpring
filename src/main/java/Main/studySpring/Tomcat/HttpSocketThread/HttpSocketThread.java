@@ -4,7 +4,8 @@ import Main.studySpring.Tomcat.agreement.Request;
 import Main.studySpring.Tomcat.agreement.Response;
 import Main.studySpring.Tomcat.context.HttpHandleContext;
 import Main.studySpring.Tomcat.enmus.StatusCode;
-import Main.studySpring.Tomcat.handle.impl.HttpHandleImpl;
+import Main.studySpring.Tomcat.handle.impl.FilterHandleImpl;
+import Main.studySpring.Tomcat.handle.impl.SpringMVCHandleImpl;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -45,7 +46,9 @@ public class HttpSocketThread extends Thread {
                     throw new RuntimeException("HandleContext is null");
                 }
                 response.setRequest(request);
-                HttpHandleImpl httpHandle = new HttpHandleImpl();
+                FilterHandleImpl filterHandle = new FilterHandleImpl();
+                filterHandle.handle(request,response);
+                SpringMVCHandleImpl httpHandle = new SpringMVCHandleImpl();
                 httpHandle.handle(request, response);
             } catch (Exception ex) {
                 log.error(ex.getMessage());

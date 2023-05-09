@@ -12,6 +12,6 @@ import java.util.Map;
  */
 
 public class UrlMap {
-    public static Map<String, Map<String, Method>> controllerContext;
+    public static Map<String,Map<String, Map<String, Method>>> controllerContext;
 
 }

@@ -1,8 +1,9 @@
 package Main.studySpring.Spring.Service.impl;
 
 import Main.studySpring.Spring.Service.UserService;
-import Main.studySpring.Spring.annotation.Autowired;
-import Main.studySpring.Spring.annotation.Bean;
+import Main.studySpring.Spring.annotation.bean.Autowired;
+import Main.studySpring.Spring.annotation.bean.Bean;
+import Main.studySpring.Spring.annotation.bean.Value;
 
 /**
  * @Classname TestService
@@ -13,10 +14,9 @@ import Main.studySpring.Spring.annotation.Bean;
  */
 @Bean
 public class TestService {
-    @Autowired
-    UserService userService;
+    @Value("123")
+    String a;
     public void print(){
-        System.out.println(userService);
-        userService.print();
+        System.out.println(a);
     }
 }

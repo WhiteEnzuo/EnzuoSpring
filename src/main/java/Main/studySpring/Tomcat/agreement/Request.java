@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Classname Request
@@ -24,10 +26,13 @@ public class Request{
     private InputStream inputStream;//读取请求
     private String encoding = "GBK";//请求资源的编码
     private Map<String,String> header;
+    private Map<String,String> query;
+    private String body;
 
     public Request(InputStream inputStream) {
         this.inputStream = inputStream;
         this.header= new HashMap<>();
+        this.query=new HashMap<>();
     }
 
     public String getEncoding() {
@@ -49,6 +54,20 @@ public class Request{
         //读取第一行，请求地址
         String line = readLine(inputStream, 0);
         uri = line.substring(line.indexOf('/'),line.lastIndexOf('/') - 5);
+        String[] uriSplit = uri.split("\\?");
+        if(uriSplit.length==2){
+            String s = uriSplit[1];
+            uri = uriSplit[0];
+            s=s.replace(" ","");
+            String pattern = "(.*)=(.*)";
+            Pattern compile = Pattern.compile(pattern);
+            Matcher matcher = compile.matcher(s);
+            while (matcher.find()) {
+                String key = matcher.group(1);
+                String value = matcher.group(2);
+                query.put(key,value);
+            }
+        }
         String method = new StringTokenizer(line).nextElement().toString();
         this.method=method;
         int contentLength = 0;
@@ -70,13 +89,13 @@ public class Request{
 
         }while(!line.equals("\r\n"));
         if("POST".equalsIgnoreCase(method)){
-            readLine(inputStream, contentLength);
+            body= readLine(inputStream, contentLength);
         }
         if("PUT".equalsIgnoreCase(method)){
-            readLine(inputStream, contentLength);
+            body= readLine(inputStream, contentLength);
         }
         if("DELETE".equalsIgnoreCase(method)){
-            readLine(inputStream, contentLength);
+            body= readLine(inputStream, contentLength);
         }
     }
 
@@ -84,12 +103,14 @@ public class Request{
         ArrayList<Object> arrayList = new ArrayList<>();
         byte readByte = 0;
         int total = 0;
+        boolean haveBody= false;
         if(contentLength != 0){//post请求
             while(total < contentLength){
                 readByte = (byte)inputStream.read();
                 arrayList.add(readByte);
                 total++;
             }
+            haveBody=true;
         }else{//get请求
             while(readByte != 10){
                 readByte = (byte)inputStream.read();
@@ -106,6 +127,8 @@ public class Request{
         String tempStr = new String(tempByteArr,encoding);
 
         if(tempStr.startsWith("Referer")){//如果有Referer头时，使用UTF-8编码
+            tempStr = new String(tempByteArr, StandardCharsets.UTF_8);
+        }else if (haveBody){
             tempStr = new String(tempByteArr, StandardCharsets.UTF_8);
         }
         return tempStr;

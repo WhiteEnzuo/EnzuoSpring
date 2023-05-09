@@ -2,8 +2,8 @@ package Main.studySpring.Spring.Service.impl;
 
 import Main.studySpring.Spring.Service.UserService;
 
-import Main.studySpring.Spring.annotation.Autowired;
-import Main.studySpring.Spring.annotation.Bean;
+import Main.studySpring.Spring.annotation.bean.Autowired;
+import Main.studySpring.Spring.annotation.bean.Bean;
 
 /**
  * @Classname UserServiceImpl

@@ -12,5 +12,5 @@ import Main.studySpring.Mybaits.model.User;
  * @Created by Enzuo
  */
 @Mapper
-public interface  UserMapper extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<User> {
 }
