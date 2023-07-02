@@ -1,8 +1,17 @@
-mybatis:
-  url: "jdbc:mysql://127.0.0.1:3306/mybatis_test"
-  username: "root"
-  password: "root"
 port: 8082
-s:
-  b:
-    c: "123"
+
+rpc:
+  address: "127.0.0.1"
+  port: 8081
+
+registry:
+  address: "127.0.0.1"
+  port: 9090
+  serverName: "Test"
+config:
+  serverName: "Test"
+  address: "127.0.0.1"
+  port: 9090
+  config:
+    - "mybatis"
+
