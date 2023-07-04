@@ -12,21 +12,25 @@ import java.util.Map;
  */
 
 public class BeanFactory {
-    private  Map<Class<?>,Object> beanContext;
-    public  Map<Class<?>, Object> getBeanContext() {
-        if(beanContext==null)beanContext=new HashMap<>();
+    private Map<Class<?>, Object> beanContext;
+
+    public Map<Class<?>, Object> getBeanContext() {
+        if (beanContext == null) beanContext = new HashMap<>();
         return beanContext;
     }
-    public  void putBean(Class<?> clazz,Object o){
-        if(beanContext==null)beanContext=new HashMap<>();
-        beanContext.put(clazz,o);
+
+    public void putBean(Class<?> clazz, Object o) {
+        if (beanContext == null) beanContext = new HashMap<>();
+        beanContext.put(clazz, o);
     }
-    public  void  setBeanContext(Map<Class<?>, Object> context) {
-        beanContext= context;
+
+    public void setBeanContext(Map<Class<?>, Object> context) {
+        beanContext = context;
     }
-    public   <T> T getBean(Class<T> clazz) {
-        if(beanContext==null||(!beanContext.containsKey(clazz)))return null;
-        return (T)beanContext.get(clazz);
+
+    public <T> T getBean(Class<T> clazz) {
+        if (beanContext == null || (!beanContext.containsKey(clazz))) return null;
+        return (T) beanContext.get(clazz);
     }
 
 }

@@ -20,12 +20,12 @@ import java.util.Set;
 
 public class GetAllServerHandle {
     public static List<Set<ServerInfo>> handle(RegistryAgreement registryAgreement) {
-        if(registryAgreement.getClassNames()==null||registryAgreement.getClassNames().size()==0){
+        if (registryAgreement.getClassNames() == null || registryAgreement.getClassNames().size() == 0) {
             Map<String, Set<ServerInfo>> serverContext = ServerContext.getServerContext();
             return new ArrayList<>(serverContext.values());
         }
         ArrayList<Set<ServerInfo>> list = new ArrayList<>();
-        registryAgreement.getClassNames().forEach((className)->{
+        registryAgreement.getClassNames().forEach((className) -> {
             Set<ServerInfo> serverInfos = ServerContext.get(className);
 
             list.add(serverInfos);

@@ -23,20 +23,23 @@ import java.util.regex.Pattern;
 @Slf4j
 public class BeanWired {
     private final ApplicationContext context;
-    public BeanWired(ApplicationContext context){
-        this.context=context;
+
+    public BeanWired(ApplicationContext context) {
+        this.context = context;
     }
-    public void initBeanProperty(){
+
+    public void initBeanProperty() {
         initBeanPropertyByPrivate();
         initBeanPropertyByValue();
     }
+
     private void initBeanPropertyByPrivate() {
         BeanFactory beanFactory = context.getBeanFactory();
         Map<Class<?>, Object> beanContext = beanFactory.getBeanContext();
         Set<Map.Entry<Class<?>, Object>> entries = beanContext.entrySet();
         for (Map.Entry<Class<?>, Object> entry : entries) {
             Object needObject = entry.getValue();
-            if(needObject==null)continue;
+            if (needObject == null) continue;
             Class<?> objectClass = needObject.getClass();
             Field[] fields = objectClass.getDeclaredFields();
             for (Field field : fields) {
@@ -61,13 +64,14 @@ public class BeanWired {
             }
         }
     }
+
     private void initBeanPropertyByValue() {
         BeanFactory beanFactory = context.getBeanFactory();
         Map<Class<?>, Object> beanContext = beanFactory.getBeanContext();
         Set<Map.Entry<Class<?>, Object>> entries = beanContext.entrySet();
         for (Map.Entry<Class<?>, Object> entry : entries) {
             Object needObject = entry.getValue();
-            if(needObject==null)continue;
+            if (needObject == null) continue;
             Class<?> objectClass = needObject.getClass();
             Field[] fields = objectClass.getDeclaredFields();
             for (Field field : fields) {
@@ -83,22 +87,24 @@ public class BeanWired {
                     try {
                         Map<String, Object> config = context.getConfig();
                         String[] split = value.split("\\.");
-                        if(split.length==0){continue;}
-                        Object assignmentObject=null;
+                        if (split.length == 0) {
+                            continue;
+                        }
+                        Object assignmentObject = null;
                         Object o = config.get(split[0]);
-                        if(o==null)continue;
-                        if(!(o instanceof Map) ){
-                            assignmentObject=config.get(split[0]);
-                        }else {
-                            Map returnMap = (Map)o;
+                        if (o == null) continue;
+                        if (!(o instanceof Map)) {
+                            assignmentObject = config.get(split[0]);
+                        } else {
+                            Map returnMap = (Map) o;
                             for (int i = 1; i < split.length; i++) {
                                 Object o1 = returnMap.get(split[i]);
-                                if(o1==null)break;
-                                if(!(o1 instanceof Map)){
-                                    assignmentObject=o1;
+                                if (o1 == null) break;
+                                if (!(o1 instanceof Map)) {
+                                    assignmentObject = o1;
                                     break;
                                 }
-                                returnMap=(Map)o1;
+                                returnMap = (Map) o1;
                             }
                         }
                         field.set(needObject, assignmentObject);
@@ -106,10 +112,10 @@ public class BeanWired {
                         log.error(e.getMessage());
                         System.exit(0);
                     }
-                }else {
+                } else {
                     try {
                         field.set(needObject, value);
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         log.error(e.getMessage());
                         System.exit(0);
                     }

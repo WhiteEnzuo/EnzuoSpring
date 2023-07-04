@@ -21,7 +21,8 @@ public class MysqlJDBC {
     public MysqlJDBC() {
 
     }
-    public static void setConnection(String url,String username,String password){
+
+    public static void setConnection(String url, String username, String password) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
@@ -30,7 +31,8 @@ public class MysqlJDBC {
             System.exit(0);
         }
     }
-    public static  <T> List<T> select(String sql, Class<T> clazz) {
+
+    public static <T> List<T> select(String sql, Class<T> clazz) {
         Statement statement = null;
         try {
             List<T> list = new ArrayList<>();
@@ -90,12 +92,13 @@ public class MysqlJDBC {
         }
         return null;
     }
+
     public static int insert(String sql) {
         Statement statement = null;
         try {
             statement = connection.createStatement();
             return statement.executeUpdate(sql);
-        } catch (SQLException  e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             if (statement != null) {
@@ -108,12 +111,13 @@ public class MysqlJDBC {
         }
         return 0;
     }
+
     public static int update(String sql) {
         Statement statement = null;
         try {
             statement = connection.createStatement();
             return statement.executeUpdate(sql);
-        } catch (SQLException  e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             if (statement != null) {
@@ -126,12 +130,13 @@ public class MysqlJDBC {
         }
         return 0;
     }
+
     public static int delete(String sql) {
         Statement statement = null;
         try {
             statement = connection.createStatement();
             return statement.executeUpdate(sql);
-        } catch (SQLException  e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             if (statement != null) {

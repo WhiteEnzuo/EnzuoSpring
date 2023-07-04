@@ -25,37 +25,39 @@ import java.util.*;
 @Slf4j
 public class RegistryListener implements ApplicationListener {
     private ApplicationContext context;
-    public RegistryListener(ApplicationContext context,String[] args){
-        this.context=context;
+
+    public RegistryListener(ApplicationContext context, String[] args) {
+        this.context = context;
     }
-    public void starting () {
+
+    public void starting() {
         Map<String, Object> config = context.getConfig();
-        Map<String, Object> configServer=(Map<String, Object>)config.get("config");
+        Map<String, Object> configServer = (Map<String, Object>) config.get("config");
         RegistryAgreement registryAgreement = new RegistryAgreement();
         registryAgreement.setTypeCode(RegisterType.GET_SEVER_CONFIG.getType());
         registryAgreement.setServerName((String) configServer.get("serverName"));
         Map<String, Object> fromServerConfig = new HashMap<>();
-        try{
-            Socket socket = new Socket((String)configServer.get("address"),(int)configServer.get("port"));
+        try {
+            Socket socket = new Socket((String) configServer.get("address"), (int) configServer.get("port"));
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(registryAgreement);
             InputStream inputStream = socket.getInputStream();
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            ConfigInfo configInfo =(ConfigInfo) objectInputStream.readObject();
+            ConfigInfo configInfo = (ConfigInfo) objectInputStream.readObject();
             fromServerConfig = configInfo.getConfig();
             inputStream.close();
             objectInputStream.close();
             outputStream.close();
             objectOutputStream.close();
             socket.close();
-        }catch (IOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e) {
             log.error(e.getMessage());
         }
-        ArrayList<String> configInfo =  (ArrayList<String>)configServer.get("config");
+        ArrayList<String> configInfo = (ArrayList<String>) configServer.get("config");
         for (String configName : configInfo) {
-            if (fromServerConfig.containsKey(configName)){
-                config.put(configName,fromServerConfig.get(configName));
+            if (fromServerConfig.containsKey(configName)) {
+                config.put(configName, fromServerConfig.get(configName));
                 continue;
             }
             System.exit(0);
@@ -63,11 +65,12 @@ public class RegistryListener implements ApplicationListener {
         }
 
     }
-    public void contextPrepared(ApplicationContext context){
+
+    public void contextPrepared(ApplicationContext context) {
         Map<String, Object> config = context.getConfig();
-        Map<String, Object> registry = (Map<String, Object>)config.get("registry");
-        Map<String, Object> rpc =(Map<String, Object>) config.get("rpc");
-        int port = (int)rpc.get("port");
+        Map<String, Object> registry = (Map<String, Object>) config.get("registry");
+        Map<String, Object> rpc = (Map<String, Object>) config.get("rpc");
+        int port = (int) rpc.get("port");
         log.info("开始启动注册中心监听器");
 //            InputStream inputStream = socket.getInputStream();
         RegistryAgreement registryAgreement = new RegistryAgreement();
@@ -76,25 +79,25 @@ public class RegistryListener implements ApplicationListener {
         Map<Class<?>, Object> beanContext = context.getBeanFactory().getBeanContext();
 
         ArrayList<String> list = new ArrayList<>();
-        beanContext.values().forEach((value)->{
+        beanContext.values().forEach((value) -> {
             RPCService annotation = value.getClass().getAnnotation(RPCService.class);
-            if(annotation!=null)list.add(value.getClass().getInterfaces()[0].getName());
+            if (annotation != null) list.add(value.getClass().getInterfaces()[0].getName());
         });
-        registryAgreement.setServerName((String)registry.get("serverName"));
+        registryAgreement.setServerName((String) registry.get("serverName"));
         registryAgreement.setClassNames(list);
         registryAgreement.setTypeCode(RegisterType.REGISTER.getType());
         TimerTask task = new TimerTask() {
             @SneakyThrows
             public void run() {
-                try{
-                    Socket socket = new Socket((String)registry.get("address"),(int)registry.get("port"));
+                try {
+                    Socket socket = new Socket((String) registry.get("address"), (int) registry.get("port"));
                     OutputStream outputStream = socket.getOutputStream();
                     ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
                     objectOutputStream.writeObject(registryAgreement);
                     outputStream.close();
                     objectOutputStream.close();
                     socket.close();
-                }catch (IOException e){
+                } catch (IOException e) {
                     log.error(e.getMessage());
                 }
             }

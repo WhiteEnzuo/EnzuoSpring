@@ -26,6 +26,5 @@ public class Main {
         Timer timer = new Timer();
         timer.schedule(task, 5000, 10000);
         new Server().startServer();
-
     }
 }

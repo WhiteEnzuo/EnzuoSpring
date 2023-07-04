@@ -3,10 +3,8 @@ package main.registry.handle.impl;
 import lombok.extern.slf4j.Slf4j;
 import main.registry.Dao.ConfigInfo;
 import main.registry.agreement.RegistryAgreement;
-
 import main.registry.server.ConfigContext;
 
-import java.util.List;
 import java.util.Map;
 
 /**

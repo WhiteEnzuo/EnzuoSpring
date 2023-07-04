@@ -12,7 +12,6 @@ import main.registry.enums.FindTypeCode;
 import main.registry.enums.RegisterType;
 import main.studySpring.Spring.Listeners.ApplicationListener;
 import main.studySpring.Spring.bean.BeanFactory;
-import main.studySpring.Spring.beanInit.model.AspectProxy;
 import main.studySpring.Spring.context.ApplicationContext;
 
 import java.io.*;
@@ -21,7 +20,6 @@ import java.lang.reflect.Proxy;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,8 +31,9 @@ import java.util.Map;
  */
 @Slf4j
 public class RPCListener implements ApplicationListener {
-    private Map<Field,Object> fieldObjectMap;
-    public RPCListener(ApplicationContext context,String[] args){
+    private Map<Field, Object> fieldObjectMap;
+
+    public RPCListener(ApplicationContext context, String[] args) {
         fieldObjectMap = new HashMap<>();
     }
 
@@ -44,16 +43,22 @@ public class RPCListener implements ApplicationListener {
         Map<Class<?>, Object> beanContext = beanFactory.getBeanContext();
         beanContext.forEach((key, value) -> {
             Field[] declaredFields = value.getClass().getDeclaredFields();
-            for (Field declaredField :declaredFields ) {
+            for (Field declaredField : declaredFields) {
                 RPCAutowired annotation = declaredField.getAnnotation(RPCAutowired.class);
-                if(annotation==null)continue;
-                fieldObjectMap.put(declaredField,value);
+                if (annotation == null) continue;
+                fieldObjectMap.put(declaredField, value);
             }
             RPCService rpcService = value.getClass().getAnnotation(RPCService.class);
             if (rpcService == null) return;
             RPCContext.put(value);
         });
-        new Thread(()->{
+        new Thread(() -> {
+            Map<String, Object> config = context.getConfig();
+            Map<String, Object> rpc = (Map<String, Object>) config.get("rpc");
+            if (rpc.containsKey("port")) {
+                new Server((Integer) rpc.get("port")).startServer();
+                return;
+            }
             new Server().startServer();
         }).start();
     }
@@ -61,10 +66,10 @@ public class RPCListener implements ApplicationListener {
     @Override
     public void running(ApplicationContext context) {
         Map<String, Object> config = context.getConfig();
-        Map<String, Object> registry =(Map<String, Object>) config.get("registry");
-        fieldObjectMap.forEach((filed,object)->{
+        Map<String, Object> registry = (Map<String, Object>) config.get("registry");
+        fieldObjectMap.forEach((filed, object) -> {
             try {
-                Socket socket = new Socket((String)registry.get("address"),(int)registry.get("port"));
+                Socket socket = new Socket((String) registry.get("address"), (int) registry.get("port"));
                 InputStream inputStream = socket.getInputStream();
                 OutputStream outputStream = socket.getOutputStream();
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -74,20 +79,19 @@ public class RPCListener implements ApplicationListener {
                 registryAgreement.setClassNames(list);
                 registryAgreement.setTypeCode(RegisterType.GET_SEVER_INFO.getType());
                 registryAgreement.setFindTypeCode(FindTypeCode.RANDOM.getType());
-
                 objectOutputStream.writeObject(registryAgreement);
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-                ServerInfo serverInfo = (ServerInfo)objectInputStream.readObject();
+                ServerInfo serverInfo = (ServerInfo) objectInputStream.readObject();
                 RPCProxy rpcProxy = new RPCProxy();
                 rpcProxy.setServerInfo(serverInfo);
                 rpcProxy.setClazz(filed.getType());
                 Object proxyObject = Proxy.newProxyInstance(filed.getType().getClassLoader(), new Class[]{filed.getType()}, rpcProxy);
                 filed.setAccessible(true);
-                filed.set(object,proxyObject);
+                filed.set(object, proxyObject);
                 objectInputStream.close();
                 objectOutputStream.close();
                 socket.close();
-            }catch (IOException | ClassNotFoundException | IllegalAccessException e){
+            } catch (IOException | ClassNotFoundException | IllegalAccessException e) {
                 log.error(e.getMessage());
             }
 

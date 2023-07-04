@@ -19,13 +19,14 @@ public class HttpInterceptorContext {
     private Set<WebHttpInterceptor> httpInterceptors;
 
     public HttpInterceptorContext() {
-        httpInterceptors=new HashSet<>();
+        httpInterceptors = new HashSet<>();
     }
 
-    public boolean addHttpInterceptor(WebHttpInterceptor interceptor){
+    public boolean addHttpInterceptor(WebHttpInterceptor interceptor) {
         return httpInterceptors.add(interceptor);
     }
-    public boolean deleteHttpInterceptor(WebHttpInterceptor interceptor){
+
+    public boolean deleteHttpInterceptor(WebHttpInterceptor interceptor) {
         return httpInterceptors.remove(interceptor);
     }
 }

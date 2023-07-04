@@ -12,5 +12,5 @@ import main.studySpring.Tomcat.agreement.Response;
  */
 
 public interface WebHttpInterceptor {
-     boolean handle(Request request, Response response);
+    boolean handle(Request request, Response response);
 }

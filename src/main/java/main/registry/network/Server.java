@@ -18,30 +18,33 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class Server {
 
-    private int port=9090;
-    private  ExecutorService executorService;
-    public Server(){
-        executorService= Executors.newSingleThreadExecutor();
+    private int port = 9090;
+    private ExecutorService executorService;
+
+    public Server() {
+        executorService = Executors.newSingleThreadExecutor();
     }
-    public Server(int port){
-        this.port=port;
-        executorService= Executors.newSingleThreadExecutor();
+
+    public Server(int port) {
+        this.port = port;
+        executorService = Executors.newSingleThreadExecutor();
     }
-    public  void startServer(){
-        ServerSocket server  = null;
+
+    public void startServer() {
+        ServerSocket server = null;
         try {
-            server  = new ServerSocket(this.port);
+            server = new ServerSocket(this.port);
             log.info("开始监听");
-            while (true){
+            while (true) {
                 Socket client = server.accept();
                 executorService.submit(new SocketThread(client));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
-        }finally {
+        } finally {
             try {
-                if(server!=null)server.close();
-            }catch (Exception e){
+                if (server != null) server.close();
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
         }

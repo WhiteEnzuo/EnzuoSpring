@@ -26,12 +26,12 @@ import java.util.TimerTask;
 @Bean
 @Slf4j
 public class EnzuoApplication {
-    public static void run(ApplicationContext context,Class<?> clazz,String[] args) {
+    public static void run(ApplicationContext context, Class<?> clazz, String[] args) {
         log.info("创建IOC容器");
         log.info("创建IOC容器成功");
         log.info("初始化监听器");
         ApplicationListenerStarter applicationListenerStarter = new ApplicationListenerStarter(context);
-        applicationListenerStarter.getResource(clazz,args);
+        applicationListenerStarter.getResource(clazz, args);
         ApplicationListeners listeners = applicationListenerStarter.stater();
         listeners.starting();
         listeners.environmentPrepared();
@@ -47,8 +47,8 @@ public class EnzuoApplication {
         new BeanWired(context).initBeanProperty();
         log.info("Bean的注入成功");
         log.info("Controller注入");
-        UrlMap.controllerContext=new HashMap<>();
-        ControllerInit controllerInit = new ControllerInit(context,UrlMap.controllerContext);
+        UrlMap.controllerContext = new HashMap<>();
+        ControllerInit controllerInit = new ControllerInit(context, UrlMap.controllerContext);
         controllerInit.init();
         log.info("Controller注入成功");
         listeners.contextLoaded();

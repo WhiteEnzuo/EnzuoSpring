@@ -38,11 +38,9 @@ public class ApplicationContext {
     public ApplicationContext(Class<?> clazz) {
         config = YamlLoader.getLoad(clazz);
         beanFactory = new BeanFactory();
-        interceptorContext=new HttpInterceptorContext();
+        interceptorContext = new HttpInterceptorContext();
         ApplicationClazz = clazz;
     }
-
-
 
 
     public BeanFactory getBeanFactory() {

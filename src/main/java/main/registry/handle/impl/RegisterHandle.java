@@ -12,7 +12,7 @@ import main.registry.server.ServerContext;
  * @Created by Enzuo
  */
 
-public class RegisterHandle{
+public class RegisterHandle {
 
     public static ServerInfo handle(RegistryAgreement registryAgreement) {
         String address = registryAgreement.getAddress();
@@ -22,8 +22,8 @@ public class RegisterHandle{
         serverInfo.setServerName(serverName);
         serverInfo.setPort(port);
         serverInfo.setAddress(address);
-        registryAgreement.getClassNames().forEach(className->{
-            ServerContext.put(serverInfo,className);
+        registryAgreement.getClassNames().forEach(className -> {
+            ServerContext.put(serverInfo, className);
         });
         return serverInfo;
     }

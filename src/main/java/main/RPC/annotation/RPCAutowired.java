@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * @Date 2023/6/28 21:02
  * @Created by Enzuo
  */
-@Target({ElementType.TYPE,ElementType.FIELD})
+@Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RPCAutowired {
 }

@@ -31,13 +31,13 @@ public class ServerContext {
 
     }
 
-    public static void put(ServerInfo serverInfo,String className) {
-        if (serverContext == null||ClassContext==null) {
+    public static void put(ServerInfo serverInfo, String className) {
+        if (serverContext == null || ClassContext == null) {
             serverContext = new ConcurrentHashMap<>();
             ClassContext = new ConcurrentHashMap<>();
             return;
         }
-        ClassContext.put(className,serverInfo.getServerName());
+        ClassContext.put(className, serverInfo.getServerName());
         if (serverContext.containsKey(serverInfo.getServerName())) {
             Set<ServerInfo> serverInfoList = serverContext.get(serverInfo.getServerName());
             serverInfoList.add(serverInfo);
@@ -49,7 +49,7 @@ public class ServerContext {
     }
 
     public static Set<ServerInfo> get(String className) {
-        if (serverContext == null||ClassContext==null) {
+        if (serverContext == null || ClassContext == null) {
             serverContext = new ConcurrentHashMap<>();
             ClassContext = new ConcurrentHashMap<>();
             return new HashSet<>();
@@ -58,19 +58,20 @@ public class ServerContext {
         boolean b = serverContext.containsKey(ClassContext.get(className));
         log.info(String.valueOf(b));
         log.info(String.valueOf(serverContext.get(ClassContext.get(className))));
-        if(!serverContext.containsKey(ClassContext.get(className))||serverContext.get(ClassContext.get(className))==null) {
+        if (!serverContext.containsKey(ClassContext.get(className)) || serverContext.get(ClassContext.get(className)) == null) {
             return new HashSet<>();
         }
         return serverContext.get(ClassContext.get(className));
     }
-    public synchronized static void removeAllKey(){
+
+    public synchronized static void removeAllKey() {
         log.info("开始清空Key");
         log.info(serverContext.toString());
-        serverContext.keySet().forEach((k)->{
+        serverContext.keySet().forEach((k) -> {
             serverContext.remove(k);
         });
         log.info(ClassContext.toString());
-        ClassContext.keySet().forEach((k)->{
+        ClassContext.keySet().forEach((k) -> {
             ClassContext.remove(k);
 
         });

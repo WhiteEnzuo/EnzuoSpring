@@ -2,7 +2,7 @@ package main.studySpring.Spring.annotation.controller;
 
 import java.lang.annotation.*;
 
-@Target({ElementType.TYPE,ElementType.FIELD,ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited

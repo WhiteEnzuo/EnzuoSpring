@@ -23,19 +23,19 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class MapperInit {
-    public  void init(ApplicationContext context){
+    public void init(ApplicationContext context) {
         try {
-            if(context==null) {
+            if (context == null) {
                 log.error("MapperInit错误");
                 return;
             }
             BeanFactory beanFactory = context.getBeanFactory();
-            if(beanFactory==null) {
+            if (beanFactory == null) {
                 log.error("MapperInit错误");
                 return;
             }
             Map<Class<?>, Object> beanContext = beanFactory.getBeanContext();
-            if(beanContext==null) {
+            if (beanContext == null) {
                 log.error("MapperInit错误");
                 return;
             }
@@ -43,35 +43,35 @@ public class MapperInit {
             for (Map.Entry<Class<?>, Object> entry : entries) {
                 Class<?> key = entry.getKey();
                 Mapper annotation = key.getAnnotation(Mapper.class);
-                if(annotation==null)continue;
+                if (annotation == null) continue;
                 Type temp = null;
                 Type[] genericInterfaces = key.getGenericInterfaces();
                 for (Type genericInterface : genericInterfaces) {
                     String typeName = genericInterface.getTypeName();
-                    if(typeName.contains(BaseMapper.class.getName())){
-                        temp=genericInterface;
+                    if (typeName.contains(BaseMapper.class.getName())) {
+                        temp = genericInterface;
                         break;
                     }
                 }
-                if (temp==null) {
+                if (temp == null) {
                     continue;
                 }
                 String pattern = "(.*)<(.*)>";
                 Pattern compile = Pattern.compile(pattern);
                 Matcher matcher = compile.matcher(temp.getTypeName());
                 String genericName = "";
-                if(matcher.find()){
+                if (matcher.find()) {
                     try {
-                        genericName= matcher.group(2);
-                    }catch (Exception e){
+                        genericName = matcher.group(2);
+                    } catch (Exception e) {
                         continue;
                     }
                 }
 
-                Object o = Proxy.newProxyInstance(key.getClassLoader(), new Class[]{key},new BaseMapperInvoke(Class.forName(genericName)));
-                beanContext.put(key,o);
+                Object o = Proxy.newProxyInstance(key.getClassLoader(), new Class[]{key}, new BaseMapperInvoke(Class.forName(genericName)));
+                beanContext.put(key, o);
             }
-        }catch (Exception exception){
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
     }

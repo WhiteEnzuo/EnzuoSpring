@@ -15,8 +15,9 @@ import java.util.Map;
 
 public class HttpHandleContext {
     private Map<String, HttpHandle> httpHandleMap;
-    public HttpHandleContext(){
-        httpHandleMap=new HashMap<>();
+
+    public HttpHandleContext() {
+        httpHandleMap = new HashMap<>();
     }
 
     public Map<String, HttpHandle> getHttpHandleMap() {
@@ -26,18 +27,20 @@ public class HttpHandleContext {
     public void setHttpHandleMap(Map<String, HttpHandle> httpHandleMap) {
         this.httpHandleMap = httpHandleMap;
     }
-    public HttpHandle getHandle(String url){
-        if(httpHandleMap==null) {
-             httpHandleMap = new HashMap<>();
+
+    public HttpHandle getHandle(String url) {
+        if (httpHandleMap == null) {
+            httpHandleMap = new HashMap<>();
             return null;
         }
-        if(httpHandleMap.containsKey(url))return httpHandleMap.get(url);
+        if (httpHandleMap.containsKey(url)) return httpHandleMap.get(url);
         return null;
     }
-    public void putHandle(String url,HttpHandle handle){
-        if(httpHandleMap==null) {
+
+    public void putHandle(String url, HttpHandle handle) {
+        if (httpHandleMap == null) {
             httpHandleMap = new HashMap<>();
         }
-        httpHandleMap.put(url,handle);
+        httpHandleMap.put(url, handle);
     }
 }
