@@ -30,7 +30,7 @@ public interface ApplicationListener {
     default void running(ApplicationContext context) {
     }
 
-    default void failed(ApplicationContext context,Throwable exception) {
+    default void failed(ApplicationContext context, Throwable exception) {
     }
 
 }

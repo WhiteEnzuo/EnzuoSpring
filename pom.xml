@@ -32,7 +32,8 @@
                                 </filter>
                             </filters>
                             <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <!-- 下面这里要填要运行的类，否则会报错 -->
                                     <mainClass>main.ApplicationRun</mainClass>
                                 </transformer>

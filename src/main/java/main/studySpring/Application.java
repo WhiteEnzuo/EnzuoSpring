@@ -23,12 +23,12 @@ import java.util.TimerTask;
 public class Application {
     public static void run(Class<?> clazz, String[] args) {
 
-            ApplicationContext context = new ApplicationContext(clazz);
-            EnzuoApplication.run(context, clazz, args);
-            Map<String, Object> config = context.getConfig();
-            if (config.containsKey("port")) {
-                Config.port = (Integer) config.get("port");
-            }
+        ApplicationContext context = new ApplicationContext(clazz);
+        EnzuoApplication.run(context, clazz, args);
+        Map<String, Object> config = context.getConfig();
+        if (config.containsKey("port")) {
+            Config.port = (Integer) config.get("port");
+        }
         UserService bean = context.getBeanFactory().getBean(UserService.class);
 
         TimerTask task = new TimerTask() {

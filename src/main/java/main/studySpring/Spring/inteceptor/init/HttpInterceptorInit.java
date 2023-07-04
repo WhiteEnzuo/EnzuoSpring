@@ -21,14 +21,14 @@ public class HttpInterceptorInit {
     private final BeanFactory beanFactory;
     private final ApplicationContext context;
 
-    public HttpInterceptorInit(HttpInterceptorContext interceptorContext,ApplicationContext context) {
+    public HttpInterceptorInit(HttpInterceptorContext interceptorContext, ApplicationContext context) {
         this.interceptorContext = interceptorContext;
-        if(context.getBeanFactory()==null){
+        if (context.getBeanFactory() == null) {
             log.error("BeanFactory is null");
             System.exit(0);
         }
-        this.beanFactory=context.getBeanFactory();
-        this.context=context;
+        this.beanFactory = context.getBeanFactory();
+        this.context = context;
     }
 
     public void init() {
@@ -56,7 +56,7 @@ public class HttpInterceptorInit {
                         if (interfaces.length == 0 || !interfaces[0].equals(WebHttpInterceptor.class)) continue;
                         Object obj = objClass.newInstance();
                         interceptorContext.addHttpInterceptor((WebHttpInterceptor) obj);
-                        beanFactory.putBean(objClass,obj);
+                        beanFactory.putBean(objClass, obj);
                     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                         e.printStackTrace();
                     }

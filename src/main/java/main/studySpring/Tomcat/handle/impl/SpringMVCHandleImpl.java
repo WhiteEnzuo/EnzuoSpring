@@ -50,14 +50,14 @@ public class SpringMVCHandleImpl implements HttpHandle {
                 for (WebHttpInterceptor httpInterceptor : httpInterceptors) {
                     boolean handle = httpInterceptor.handle(request, response);
                     if (!handle) {
-                        if(response.isHandle()){
+                        if (response.isHandle()) {
 
                             return;
                         }
                         response.setHeaderKey("Content-Type", "application/json;charset=UTF-8");
                         response.sentResponse("Forbidden", StatusCode.Forbidden);
                         return;
-                    }else {
+                    } else {
                         response.setHandle(false);
                     }
                 }

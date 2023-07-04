@@ -30,7 +30,7 @@ public class Client {
             objectOutputStream.writeObject(request);
             InputStream inputStream = server.getInputStream();
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            rpcResponse = (RPCResponse)objectInputStream.readObject();
+            rpcResponse = (RPCResponse) objectInputStream.readObject();
             inputStream.close();
             outputStream.close();
         } catch (Exception e) {

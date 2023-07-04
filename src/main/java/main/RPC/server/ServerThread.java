@@ -21,7 +21,7 @@ import java.net.Socket;
  */
 @Data
 @Slf4j
-public class ServerThread implements Runnable{
+public class ServerThread implements Runnable {
     private Socket client;
 
     public ServerThread(Socket client) {
@@ -30,32 +30,32 @@ public class ServerThread implements Runnable{
 
     @Override
     public void run() {
-        ObjectOutputStream objectOutputStream =null;
-        ObjectInputStream objectInputStream =null;
+        ObjectOutputStream objectOutputStream = null;
+        ObjectInputStream objectInputStream = null;
         try {
             OutputStream outputStream = client.getOutputStream();
             InputStream inputStream = client.getInputStream();
             objectInputStream = new ObjectInputStream(inputStream);
-            RPCRequest request = (RPCRequest)objectInputStream.readObject();
+            RPCRequest request = (RPCRequest) objectInputStream.readObject();
             String className = request.getClassName();
             Class<?> serverClass = Class.forName(className);
             Method method = serverClass.getMethod(request.getMethodName(), request.getMethodAgreeType());
-            Object rpcInvoke= RPCContext.get(className);
+            Object rpcInvoke = RPCContext.get(className);
 
             Object invoke = method.invoke(rpcInvoke, request.getMethodAgree());
             objectOutputStream = new ObjectOutputStream(outputStream);
             RPCResponse rpcResponse = new RPCResponse();
             rpcResponse.setResponse(invoke);
             objectOutputStream.writeObject(rpcResponse);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
-        }finally {
+        } finally {
             try {
-                if(objectOutputStream!=null)objectOutputStream.close();
-                if(objectInputStream!=null)
+                if (objectOutputStream != null) objectOutputStream.close();
+                if (objectInputStream != null)
                     objectInputStream.close();
-                if(client!=null)client.close();
-            }catch (Exception e){
+                if (client != null) client.close();
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
         }

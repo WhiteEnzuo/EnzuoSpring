@@ -18,12 +18,12 @@ import main.studySpring.Spring.model.Body;
 @Controller("/123")
 public class TestController {
     @PostMapping("/456")
-    public Result a(@Param("id")String id,@RequestBody Body body){
+    public Result a(@Param("id") String id, @RequestBody Body body) {
         System.out.println(id);
         System.out.println(body);
         Result ok = Result.ok();
         ok.setMessage("456");
-        ok.data("a","b");
+        ok.data("a", "b");
         return ok;
     }
 

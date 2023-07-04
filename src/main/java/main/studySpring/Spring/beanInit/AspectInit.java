@@ -20,28 +20,33 @@ import java.util.Set;
 @Slf4j
 public class AspectInit {
     private final ApplicationContext context;
-    public AspectInit(ApplicationContext context){
-        this.context=context;
+
+    public AspectInit(ApplicationContext context) {
+        this.context = context;
     }
-    public void initAspect(){
+
+    public void initAspect() {
         initAspectByPrivate();
     }
-    public void initAspectByPrivate(){
+
+    public void initAspectByPrivate() {
         BeanFactory beanFactory = context.getBeanFactory();
         Map<Class<?>, Object> beanContext = beanFactory.getBeanContext();
         Set<Map.Entry<Class<?>, Object>> entries = beanContext.entrySet();
         for (Map.Entry<Class<?>, Object> entry : entries) {
             Object value = entry.getValue();
-            if(value==null){continue;}
+            if (value == null) {
+                continue;
+            }
             Aspect aspect = value.getClass().getAnnotation(Aspect.class);
-            if(aspect==null)continue;
+            if (aspect == null) continue;
             Class<?> proxyObjectClass = aspect.value();
             try {
-                if(proxyObjectClass.isInterface())continue;
+                if (proxyObjectClass.isInterface()) continue;
 //                System.out.println(value.getClass().getClassLoader());
-                Object o = Proxy.newProxyInstance(entry.getKey().getClassLoader(), new Class[]{entry.getKey()}, new AspectProxy(entry.getValue(),proxyObjectClass));
-                beanContext.put(entry.getKey(),o);
-            }catch (Exception e){
+                Object o = Proxy.newProxyInstance(entry.getKey().getClassLoader(), new Class[]{entry.getKey()}, new AspectProxy(entry.getValue(), proxyObjectClass));
+                beanContext.put(entry.getKey(), o);
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
 

@@ -14,10 +14,10 @@ import java.util.List;
  */
 @Data
 public class RegistryAgreement implements Serializable {
-        private Integer typeCode;
-        private Integer findTypeCode;
-        private String serverName;
-        private List<String> classNames;
-        private String address;
-        private Short port;
+    private Integer typeCode;
+    private Integer findTypeCode;
+    private String serverName;
+    private List<String> classNames;
+    private String address;
+    private Short port;
 }

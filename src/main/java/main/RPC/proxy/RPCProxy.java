@@ -20,12 +20,13 @@ import java.lang.reflect.Method;
 public class RPCProxy implements InvocationHandler {
     private ServerInfo serverInfo;
     private Class<?> clazz;
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if(method.getName().equals("toString")){
+        if (method.getName().equals("toString")) {
             return clazz.getName();
         }
-        RPCRequest request=new RPCRequest();
+        RPCRequest request = new RPCRequest();
         request.setMethodName(method.getName());
         request.setMethodAgree(args);
         request.setMethodAgreeType(method.getParameterTypes());

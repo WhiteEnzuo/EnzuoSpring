@@ -15,10 +15,16 @@ import java.util.List;
 
 public interface BaseMapper<T> {
     T selectById(Serializable id);
+
     List<T> select();
+
     List<T> select(Query query);
+
     int insert(T obj);
-    int update(T obj,Query query);
-    int delete(T obj,Query query);
+
+    int update(T obj, Query query);
+
+    int delete(T obj, Query query);
+
     boolean deleteById(Serializable id);
 }

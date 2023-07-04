@@ -10,74 +10,83 @@ import java.io.Serializable;
  * @Created by Enzuo
  */
 
-public class Query{
-    private StringBuilder whereString ;
-    public Query(){
-        whereString=new StringBuilder();
+public class Query {
+    private StringBuilder whereString;
+
+    public Query() {
+        whereString = new StringBuilder();
     }
-    public Query eq(Serializable key, Serializable value){
-        if(value instanceof Number){
+
+    public Query eq(Serializable key, Serializable value) {
+        if (value instanceof Number) {
             whereString.append(key).append("=").append(value).append(",");
-        }else {
+        } else {
             whereString.append(key).append("=").append("'").append(value).append("'").append(",");
 
         }
         return this;
     }
-    public Query greater(Serializable key, Serializable value){
-        if(value instanceof Number){
+
+    public Query greater(Serializable key, Serializable value) {
+        if (value instanceof Number) {
             whereString.append(key).append(">").append(value).append(",");
-        }else {
+        } else {
             whereString.append(key).append(">").append("'").append(value).append("'").append(",");
 
         }
         return this;
     }
-    public Query less(Serializable key, Serializable value){
-        if(value instanceof Number){
+
+    public Query less(Serializable key, Serializable value) {
+        if (value instanceof Number) {
             whereString.append(key).append("<").append(value).append(",");
-        }else {
+        } else {
             whereString.append(key).append("<").append("'").append(value).append("'").append(",");
 
         }
         return this;
     }
-    public Query lessAndEq(Serializable key, Serializable value){
-        if(value instanceof Number){
+
+    public Query lessAndEq(Serializable key, Serializable value) {
+        if (value instanceof Number) {
             whereString.append(key).append("<=").append(value).append(",");
-        }else {
+        } else {
             whereString.append(key).append("<=").append("'").append(value).append("'").append(",");
 
         }
         return this;
     }
-    public Query greaterAndEq(Serializable key, Serializable value){
-        if(value instanceof Number){
+
+    public Query greaterAndEq(Serializable key, Serializable value) {
+        if (value instanceof Number) {
             whereString.append(key).append(">=").append(value).append(",");
-        }else {
+        } else {
             whereString.append(key).append(">=").append("'").append(value).append("'").append(",");
 
         }
         return this;
     }
-    public Query notEq(Serializable key, Serializable value){
-        if(value instanceof Number){
+
+    public Query notEq(Serializable key, Serializable value) {
+        if (value instanceof Number) {
             whereString.append(key).append("!=").append(value).append(",");
-        }else {
+        } else {
             whereString.append(key).append("!=").append("'").append(value).append("'").append(",");
 
         }
         return this;
     }
-    public Query sql(Serializable s){
+
+    public Query sql(Serializable s) {
         whereString.append(s).append(" ");
         return this;
     }
+
     @Override
     public String toString() {
-        if(whereString.length()==0)throw new RuntimeException("Query错误");
-        if(whereString.charAt(whereString.length()-1)==',')whereString.deleteCharAt(whereString.length()-1);
-        return "where "+whereString;
+        if (whereString.length() == 0) throw new RuntimeException("Query错误");
+        if (whereString.charAt(whereString.length() - 1) == ',') whereString.deleteCharAt(whereString.length() - 1);
+        return "where " + whereString;
     }
 }
 

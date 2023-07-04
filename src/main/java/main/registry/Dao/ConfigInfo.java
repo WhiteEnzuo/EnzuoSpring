@@ -15,5 +15,5 @@ import java.util.Map;
  */
 @Data
 public class ConfigInfo implements Serializable {
-    private Map<String,Object> config;
+    private Map<String, Object> config;
 }

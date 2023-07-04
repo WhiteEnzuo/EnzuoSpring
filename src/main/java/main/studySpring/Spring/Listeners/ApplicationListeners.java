@@ -15,10 +15,12 @@ import java.util.List;
 public class ApplicationListeners {
     private List<ApplicationListener> listeners;
     private ApplicationContext context;
-    public ApplicationListeners(List<ApplicationListener> listeners,ApplicationContext context){
-        this.listeners=listeners;
-        this.context=context;
+
+    public ApplicationListeners(List<ApplicationListener> listeners, ApplicationContext context) {
+        this.listeners = listeners;
+        this.context = context;
     }
+
     public void starting() {
         for (ApplicationListener listener : listeners) {
             listener.starting();
@@ -57,7 +59,7 @@ public class ApplicationListeners {
 
     public void failed(Throwable exception) {
         for (ApplicationListener listener : listeners) {
-            listener.failed(context,exception);
+            listener.failed(context, exception);
         }
     }
 }

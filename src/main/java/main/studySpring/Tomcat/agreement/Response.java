@@ -23,8 +23,9 @@ public class Response {
     private OutputStream outputStream;//用于输出资源
     private Map<String, Object> header;
     private boolean isHandle;
-    public Response(){
-        header=new HashMap<>();
+
+    public Response() {
+        header = new HashMap<>();
 
     }
 
@@ -62,11 +63,11 @@ public class Response {
     }
 
     public void sentResponse(String s, StatusCode code) {
-        isHandle=true;
+        isHandle = true;
         PrintWriter out = new PrintWriter(outputStream);
         out.printf("HTTP/1.0 %d %s\n", code.getCode(), code.getMessage());
 //        out.println("Content-Type:text/html;charset=" + StandardCharsets.UTF_8);
-        if (header==null||!header.containsKey("Content-Type")) {
+        if (header == null || !header.containsKey("Content-Type")) {
             out.println("Content-Type:text/html;charset=" + StandardCharsets.UTF_8);
 
         }
@@ -75,7 +76,7 @@ public class Response {
         if (code.getCode() == 200) {
             out.println(s);
         } else {
-            log.info(request.getMethod()+" "+request.getUri()+" "+code.getCode());
+            log.info(request.getMethod() + " " + request.getUri() + " " + code.getCode());
             out.printf("{\"code\":%d,\"message\":\"%s\",\"url\":\"%s\"}", code.getCode(), code.getMessage(), request.getUri());
         }
         out.close();

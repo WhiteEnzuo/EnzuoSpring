@@ -13,9 +13,9 @@ import main.studySpring.Spring.annotation.Aspect.Before;
  */
 @Bean
 @Aspect(TestProxy.class)
-public class TestImpl implements Test{
+public class TestImpl implements Test {
     @Before("start")
-    public void aest(){
+    public void aest() {
         System.out.println("ast");
     }
 }

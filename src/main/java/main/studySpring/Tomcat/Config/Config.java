@@ -9,5 +9,5 @@ package main.studySpring.Tomcat.Config;
  */
 
 public class Config {
-    public static int port=8080;
+    public static int port = 8080;
 }

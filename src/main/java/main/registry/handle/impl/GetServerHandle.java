@@ -16,21 +16,22 @@ import java.util.Set;
  * @Created by Enzuo
  */
 
-public class GetServerHandle{
+public class GetServerHandle {
 
     public static ServerInfo handle(RegistryAgreement registryAgreement) {
         String className = registryAgreement.getClassNames().get(0);
         Set<ServerInfo> serverInfos = ServerContext.get(className);
-        if(registryAgreement.getFindTypeCode().equals(FindTypeCode.RANDOM.getType())){
+        if (registryAgreement.getFindTypeCode().equals(FindTypeCode.RANDOM.getType())) {
             return RandomServer(serverInfos);
         }
         return null;
     }
-    private static ServerInfo RandomServer(Set<ServerInfo> serverInfos){
+
+    private static ServerInfo RandomServer(Set<ServerInfo> serverInfos) {
         Random random = new Random();
-        int i = (int)(random.nextDouble()*serverInfos.size());
+        int i = (int) (random.nextDouble() * serverInfos.size());
         Object[] objects = serverInfos.toArray();
-        return (ServerInfo)objects[i];
+        return (ServerInfo) objects[i];
 
     }
 }

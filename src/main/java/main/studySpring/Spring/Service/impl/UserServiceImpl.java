@@ -18,7 +18,8 @@ import main.studySpring.Spring.annotation.bean.Bean;
 public class UserServiceImpl implements UserService {
     @RPCAutowired
     TestService testService;
-    public void print(){
+
+    public void print() {
         String s = testService.s();
         log.info(s);
 //        log.info("");

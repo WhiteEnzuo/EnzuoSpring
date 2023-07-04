@@ -15,13 +15,13 @@ import java.util.Map;
  */
 @Slf4j
 public class YamlLoader {
-    public static Map<String,Object> getLoad(Class<?> clazz){
+    public static Map<String, Object> getLoad(Class<?> clazz) {
         Yaml yaml = new Yaml();
         InputStream resourceAsStream = clazz.getClassLoader().getResourceAsStream("application.yaml");
-        if(resourceAsStream==null){
+        if (resourceAsStream == null) {
             log.error("application.yaml is null");
             System.exit(0);
         }
-        return (Map<String,Object>)yaml.load(resourceAsStream);
+        return (Map<String, Object>) yaml.load(resourceAsStream);
     }
 }

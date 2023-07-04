@@ -9,7 +9,7 @@ package main.studySpring.Spring.Test;
  */
 
 public class TestProxy {
-    public void start(){
+    public void start() {
         System.out.println("start成功");
     }
 }

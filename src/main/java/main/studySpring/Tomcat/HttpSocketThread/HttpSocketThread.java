@@ -24,9 +24,9 @@ public class HttpSocketThread extends Thread {
     private HttpHandleContext context;
 
 
-    public HttpSocketThread(Socket connection,HttpHandleContext context) {
+    public HttpSocketThread(Socket connection, HttpHandleContext context) {
         this.connection = connection;
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -47,12 +47,12 @@ public class HttpSocketThread extends Thread {
                 }
                 response.setRequest(request);
                 FilterHandleImpl filterHandle = new FilterHandleImpl();
-                filterHandle.handle(request,response);
+                filterHandle.handle(request, response);
                 SpringMVCHandleImpl httpHandle = new SpringMVCHandleImpl();
                 httpHandle.handle(request, response);
             } catch (Exception ex) {
                 log.error(ex.getMessage());
-            }finally {
+            } finally {
                 closeSocket(connection);
             }
         }
